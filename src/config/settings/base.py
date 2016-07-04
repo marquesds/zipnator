@@ -23,13 +23,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SECRET_FILE = os.path.join(BASE_DIR, 'config', 'settings', 'secrets.json')
 
 def get_secret(environment, secret):
-    """ Retrieve a secret """
+    """ Retrieve a secret inside secrets.json if the given environment variable don't exist """
+    if secret in os.environ:
+        return os.environ[secret]
     with open(SECRET_FILE) as f:
         content = f.read()
     return json.loads(content).get(environment).get(secret)
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'wb0!=mhj)_r6w4y6w+23!$g!bv%)c!67_it8omslz)%(do1jg1'
 
 # Application definition
 
