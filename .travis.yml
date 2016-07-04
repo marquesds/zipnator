@@ -1,0 +1,9 @@
+language: python
+python:
+  - "3.4"
+  - "3.5"
+# command to install dependencies
+install:
+  - pip install -r src/config/requirements/base.txt
+# command to run tests
+script: nosetests
