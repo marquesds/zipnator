@@ -44,8 +44,9 @@ class AddressResource(DjangoResource):
             logger.error(e)
 
     def list(self):
+        limit = self.request.GET.get('limit', None)
         try:
-            return Address.objects.all()
+            return Address.objects.all()[:limit]
         except Exception as e:
             logger.error(e)
 
