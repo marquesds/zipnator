@@ -20,6 +20,7 @@ Service that get a zipcode and saves the address to MySQL
 
 # Testing API via curl
 - List all: `curl -X GET http://127.0.0.1:8000/api/adresses/`
+- List all with `limit` parameter: `curl -X GET http://127.0.0.1:8000/api/adresses/?limit=10`
 - Get address by zipcode: `curl -X GET http://127.0.0.1:8000/api/adresses/14020260/`
 - Save an address: `curl -X POST --data '{"zipcode": "14020260"}' http://127.0.0.1:8000/api/adresses/`
 - Delete an address: `curl -X DELETE http://127.0.0.1:8000/api/adresses/14020260/`
