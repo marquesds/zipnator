@@ -9,9 +9,10 @@ Service that get a zipcode and saves the address to MySQL
 2. Install all requirements: `pip install -r src/config/requirements/{environment}.txt`
 3. Set `DJANGO_SETTINGS_MODULE` to `config.settings.{environment}`
 4. Create a file called `secrets.json` inside `src/config/settings` folder. You can follow `secrets.template.json` example
-5. Run `python src/manage.py migrate`
-6. Run `python src/manage.py runserver`
-7. Note: You can execute `scripts/setup.sh` to use the custom command `zipnator`
+5. Create database `zipnator`
+6. Run `python src/manage.py migrate`
+7. Run `python src/manage.py runserver`
+8. Note: You can execute `scripts/setup.sh` to use the custom command `zipnator`
   - You'll can run project's command from any folder e.g. `zipnator runserver`, `zipnator test`, etc
 
 # Testing

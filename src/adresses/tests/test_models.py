@@ -17,4 +17,10 @@ class AddressTest(TestCase):
             'state': 'SP',
             'zipcode': '04917080'
         }
-        self.assertTrue(Address.objects.create(**data))
+        pass
+
+    def test_save_invalid_address(self):
+        pass
+
+    def test_save_not_unique_zipcode(self):
+        pass
