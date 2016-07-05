@@ -8,6 +8,7 @@ services:
   - mysql
 
 before_install:
+  - echo '{"local":{"SECRET_KEY":"wb0!=mhj)_r6w4y6w+23!$g!bv%)c!67_it8omslz)%(do1jg1","DATABASE":{"DB_NAME":"zipnator","DB_USER":"root","DB_PWD":"","DB_HOST":"127.0.0.1","DB_PORT":3306}}}' > src/config/settings/secrets.json
   - mysql -e "create database IF NOT EXISTS zipnator_test;" -uroot
 
 install:
