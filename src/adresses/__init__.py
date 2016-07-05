@@ -1,0 +1,2 @@
+class InvalidZipcodeException(Exception):
+    pass
