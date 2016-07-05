@@ -1,5 +1,5 @@
 from django.test import TestCase
-from addresses.models import Address
+from adresses.models import Address
 
 
 class AddressTest(TestCase):
@@ -15,6 +15,6 @@ class AddressTest(TestCase):
             'district': 'Jardim Souza',
             'city': 'São Paulo',
             'state': 'São Paulo',
-            'zipcode': '04917-080'
+            'zipcode': '04917080'
         }
         self.assertTrue(Address.objects.create(**data))
