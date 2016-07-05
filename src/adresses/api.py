@@ -30,6 +30,9 @@ class AddressResource(DjangoResource):
         }
         return Address.objects.create(**data)
 
+    def delete(self, pk):
+        Address.objects.get(zipcode=pk).delete()
+
     def list(self):
         return Address.objects.all()
 
