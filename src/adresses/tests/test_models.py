@@ -14,7 +14,7 @@ class AddressTest(TestCase):
             'street': 'Rua Maria José de Souza',
             'district': 'Jardim Souza',
             'city': 'São Paulo',
-            'state': 'São Paulo',
+            'state': 'SP',
             'zipcode': '04917080'
         }
         self.assertTrue(Address.objects.create(**data))
