@@ -17,6 +17,9 @@ class Address(models.Model):
         validators=[RegexValidator(regex=re.compile('^\d{8}'), message='Invalid zipcode')]
     )
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.zipcode
 
