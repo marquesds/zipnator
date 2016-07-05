@@ -1,9 +1,17 @@
 language: python
+
 python:
   - "3.4"
   - "3.5"
-# command to install dependencies
+
+services:
+  - mysql
+
+before_install:
+  - mysql -e "create database IF NOT EXISTS zipnator_test;" -uroot
+
 install:
-  - pip install -r src/config/requirements/base.txt
-# command to run tests
-script: nosetests
+  - pip install -r src/config/requirements/local.txt
+
+script:
+  - coverage run src/manage.py test
