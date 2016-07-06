@@ -1,6 +1,9 @@
 import logging
 from django.conf import settings
+from django.http import Http404
+from adresses import InvalidZipcodeException
 from adresses.models import Address
+from adresses.helpers import validate_zipcode
 from restless.dj import DjangoResource
 from restless.preparers import FieldsPreparer
 import requests
@@ -23,19 +26,23 @@ class AddressResource(DjangoResource):
         return True
 
     def create(self):
-        try:
-            zipcode_url = settings.ZIPCODE_PROVIDER + self.data['zipcode']
-            results = requests.get(zipcode_url).json()
-            data = {
-                'street': results.get('logradouro'),
-                'district': results.get('bairro'),
-                'city': results.get('cidade'),
-                'state': results.get('estado'),
-                'zipcode': results.get('cep')
-            }
-            return Address.objects.create(**data)
-        except Exception as e:
-            logger.error(e)
+        validate_zipcode(self.data['zipcode'])
+        zipcode_url = settings.ZIPCODE_PROVIDER + self.data['zipcode']
+        resp = requests.get(zipcode_url)
+        if resp.status_code == 404:
+            msg = 'Zipcode not found'
+            logger.error(msg)
+            raise Http404(msg)
+        else:
+            results = resp.json()
+        data = {
+            'street': results.get('logradouro'),
+            'district': results.get('bairro'),
+            'city': results.get('cidade'),
+            'state': results.get('estado'),
+            'zipcode': results.get('cep')
+        }
+        return Address.objects.create(**data)
 
     def delete(self, pk):
         try:
