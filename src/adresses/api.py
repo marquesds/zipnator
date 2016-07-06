@@ -52,13 +52,9 @@ class AddressResource(DjangoResource):
     def list(self):
         limit = self.request.GET.get('limit', None)
         limit = int(limit) if limit else limit
-        try:
-            return Address.objects.all()[:limit]
-        except Exception as e:
-            logger.error(e)
+        return Address.objects.all()[:limit]
 
     def detail(self, pk):
-        try:
-            return Address.objects.get(zipcode=pk)
-        except Exception as e:
-            logger.error(e)
+        validate_zipcode(pk)
+        pk = pk.replace('-', '')
+        return Address.objects.get(zipcode=pk)

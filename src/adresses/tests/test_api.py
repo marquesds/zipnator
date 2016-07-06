@@ -92,13 +92,32 @@ class AddressResourceServerTest(TestCase):
             self.resource.delete(pk='04917080')
 
     def test_get_address_by_zipcode(self):
-        pass
+        req = self.req_factory.get('/api/adresses/11704010/')
+        self.resource.request = req
+        address = self.resource.detail(pk='11704010')
+        self.assertEqual(Address.objects.get(zipcode='11704010'), address)
 
     def test_get_address_by_invalid_zipcode(self):
-        pass
+        with self.assertRaises(InvalidZipcodeException):
+            req = self.req_factory.get('/api/adresses/04917-80/')
+            self.resource.request = req
+            self.resource.detail(pk='04917-80')
+
+        with self.assertRaises(InvalidZipcodeException):
+            req = self.req_factory.get('/api/adresses/0491-080/')
+            self.resource.request = req
+            self.resource.detail(pk='0491-080')
+
+        with self.assertRaises(InvalidZipcodeException):
+            req = self.req_factory.get('/api/adresses/0491780/')
+            self.resource.request = req
+            self.resource.detail(pk='0491780')
 
     def test_get_address_by_nonexistent_zipcode(self):
-        pass
+        with self.assertRaises(ObjectDoesNotExist):
+            req = self.req_factory.get('/api/adresses/04917080/')
+            self.resource.request = req
+            self.resource.detail(pk='04917080')
 
     def test_list_all_adresses(self):
         req = self.req_factory.get('/api/adresses/')
