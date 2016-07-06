@@ -20,3 +20,7 @@ class AddressTest(TestCase):
         Address.objects.create(zipcode='04917080')
         with self.assertRaises(IntegrityError):
             Address.objects.create(zipcode='04917080')
+
+    def test_address_str(self):
+        address = Address.objects.create(zipcode='04917080')
+        self.assertEqual(str(address), '04917080')
