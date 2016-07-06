@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.test import RequestFactory
 from django.http import Http404
 from django.db.utils import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
 from adresses.api import AddressResource
 from adresses.models import Address
 from adresses import InvalidZipcodeException
@@ -62,13 +63,33 @@ class AddressResourceServerTest(TestCase):
             self.resource.create()
 
     def test_delete_address(self):
-        pass
+        req = self.req_factory.delete('/api/adresses/11704010/')
+        self.resource.request = req
+        self.resource.delete(pk='11704010')
+        results = Address.objects.filter(zipcode='11704010')
+        self.assertEqual(0, len(results))
 
     def test_delete_address_with_invalid_zipcode(self):
-        pass
+        with self.assertRaises(InvalidZipcodeException):
+            req = self.req_factory.delete('/api/adresses/04917-80/')
+            self.resource.request = req
+            self.resource.delete(pk='04917-80')
+
+        with self.assertRaises(InvalidZipcodeException):
+            req = self.req_factory.delete('/api/adresses/0491-080/')
+            self.resource.request = req
+            self.resource.delete(pk='0491-080')
+
+        with self.assertRaises(InvalidZipcodeException):
+            req = self.req_factory.delete('/api/adresses/0491780/')
+            self.resource.request = req
+            self.resource.delete(pk='0491780')
 
     def test_delete_nonexisting_address(self):
-        pass
+        with self.assertRaises(ObjectDoesNotExist):
+            req = self.req_factory.delete('/api/adresses/04917080/')
+            self.resource.request = req
+            self.resource.delete(pk='04917080')
 
     def test_get_address_by_zipcode(self):
         pass

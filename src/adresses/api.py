@@ -45,10 +45,9 @@ class AddressResource(DjangoResource):
         return Address.objects.create(**data)
 
     def delete(self, pk):
-        try:
-            Address.objects.get(zipcode=pk).delete()
-        except Exception as e:
-            logger.error(e)
+        validate_zipcode(pk)
+        pk = pk.replace('-', '')
+        Address.objects.get(zipcode=pk).delete()
 
     def list(self):
         limit = self.request.GET.get('limit', None)
