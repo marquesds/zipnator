@@ -1,14 +1,9 @@
 from django.test import TestCase
+from django.db.utils import IntegrityError
 from adresses.models import Address
 
 
 class AddressTest(TestCase):
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
-
     def test_save_address(self):
         data = {
             'street': 'Rua Maria José de Souza',
@@ -17,10 +12,11 @@ class AddressTest(TestCase):
             'state': 'SP',
             'zipcode': '04917080'
         }
-        pass
-
-    def test_save_invalid_address(self):
-        pass
+        Address.objects.create(**data)
+        adresses = Address.objects.all()
+        self.assertTrue(len(adresses) > 0)
 
     def test_save_not_unique_zipcode(self):
-        pass
+        Address.objects.create(zipcode='04917080')
+        with self.assertRaises(IntegrityError):
+            Address.objects.create(zipcode='04917080')

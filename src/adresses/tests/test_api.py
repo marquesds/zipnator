@@ -3,10 +3,9 @@ from adresses.api import AddressResource
 
 
 class AddressResourceServerTest(TestCase):
-    def setUp(self):
-        pass
+    fixtures = ['adresses_fixtures.json']
 
-    def tearDown(self):
+    def setUp(self):
         pass
 
     def test_save_address(self):
@@ -40,4 +39,6 @@ class AddressResourceServerTest(TestCase):
         pass
 
     def test_list_all_adresses(self):
-        pass
+        resp = self.client.get('/api/adresses/')
+        results = resp.json().get('objects', [])
+        self.assertEqual(5, len(results))

@@ -4,17 +4,15 @@ from django.core.validators import RegexValidator
 
 
 class Address(models.Model):
-    street = models.CharField('Street', max_length=300, blank=False, null=False)
-    district = models.CharField('District', max_length=200, blank=False, null=False)
-    city = models.CharField('City', max_length=200, blank=False, null=False)
-    state = models.CharField('State', max_length=2, blank=False, null=False)
+    street = models.CharField('Street', max_length=300)
+    district = models.CharField('District', max_length=200)
+    city = models.CharField('City', max_length=200)
+    state = models.CharField('State', max_length=2)
     zipcode = models.CharField(
         'Zipcode',
         max_length=9,
-        blank=False,
-        null=False,
         unique=True,
-        validators=[RegexValidator(regex=re.compile('^\d{8}'), message='Invalid zipcode')]
+        validators=[RegexValidator(regex=re.compile(r'^\d{8}'), message='Invalid zipcode')]
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
