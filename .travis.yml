@@ -18,4 +18,5 @@ script:
   - coverage run --source=src src/manage.py test
 
 after_success:
+  - coverage report
   - coveralls
