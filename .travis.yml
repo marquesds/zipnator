@@ -15,7 +15,7 @@ install:
   - pip install -r src/config/requirements/local.txt
 
 script:
-  - coverage run --source=src src/manage.py test
+  - coverage run --source=src src/manage.py test src
 
 after_success:
   - coverage report
